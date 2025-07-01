@@ -1,16 +1,9 @@
-package com.example.plantit
+package com.example.plantit.model
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
 
-data class MainState(
+data class BitmapState(
     val selectedImageBitmap: Bitmap? = null,
     val isLoading : Boolean = false,
     val response : String? = null
 )
-
-
-
-
-

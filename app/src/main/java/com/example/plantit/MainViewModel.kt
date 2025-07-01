@@ -1,5 +1,6 @@
 package com.example.plantit
 
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -11,18 +12,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.plantit.components.MyTasksState
+import com.example.plantit.model.BitmapState
 import com.example.plantit.model.Plant
 import com.example.plantit.model.Task
 import com.example.plantit.model.TaskType
+import com.example.plantit.utils.uriToBitmap
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class MainViewModel(private val uriReader: UriReader) : ViewModel() {
+class MainViewModel() : ViewModel() {
 
-    var state by mutableStateOf(MainState())
+    var state by mutableStateOf(BitmapState())
         private set
 
     var myPlantsState by mutableStateOf(MyPlantsState())
@@ -30,10 +33,10 @@ class MainViewModel(private val uriReader: UriReader) : ViewModel() {
     var myTasksState by mutableStateOf(MyTasksState())
         private set
 
-    fun onImageSelected(uri: Uri) {
+    fun onImageSelected(uri: Uri, context: Context) {
         viewModelScope.launch {
             state = state.copy(
-                selectedImageBitmap = uriReader.uriToBitmap(uri)
+                selectedImageBitmap = uriToBitmap(uri, context)
             )
         }
     }
@@ -82,7 +85,6 @@ class MainViewModel(private val uriReader: UriReader) : ViewModel() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onAddNewPlantClick(plant: Plant) {
-
         val existingPlant = myPlantsState.myPlants.find { it.id == plant.id }
         if (existingPlant == null) {
             myPlantsState = myPlantsState.copy(
@@ -116,15 +118,5 @@ class MainViewModel(private val uriReader: UriReader) : ViewModel() {
             Log.i("siema", "Roślina o id ${plant.id} już istnieje w liście. Lista wyglada tak: ${myPlantsState.myPlants.toString()}")
 
         }
-    }
-}
-
-class MainViewModelFactory(private val uriReader: UriReader) : ViewModelProvider.Factory {
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            @Suppress("UNCHECKED_CAST")
-            return MainViewModel(uriReader) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

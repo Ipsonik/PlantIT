@@ -17,25 +17,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.plantit.BuildConfig
 import com.example.plantit.MainViewModel
-import com.example.plantit.R
-import com.example.plantit.UriReader
 import com.google.ai.client.generativeai.GenerativeModel
 import kotlinx.serialization.Serializable
 
 
 @Composable
-fun AIHelper(viewModel: MainViewModel) {
+fun AIHelper(viewModel: MainViewModel, navController: NavController) {
     val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash",
         apiKey = BuildConfig.API_KEY
@@ -50,7 +47,7 @@ fun AIHelper(viewModel: MainViewModel) {
             selectedImageUri = uri
             uri.let {
                 if (uri != null) {
-                    viewModel.onImageSelected(uri)
+                    viewModel.onImageSelected(uri, navController.context)
                 }
             }
         })
