@@ -3,24 +3,33 @@ package com.example.plantit.features.dashboard.presentation
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.plantit.app.MainViewModel
 import kotlinx.serialization.Serializable
+import org.koin.androidx.compose.koinViewModel
 
 @Serializable
 object TasksScreen
 
 @Composable
-fun TasksScreen(viewModel: MainViewModel) {
+fun TasksScreen(viewModel: MainViewModel = koinViewModel()) {
+    val userState = viewModel.userState
 
+    LaunchedEffect(Unit) {
+        viewModel.loadCurrentUser()
+    }
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-
+        item {
+            Text(text = "Witaj ${userState.email}!")
+        }
     }
 }
 

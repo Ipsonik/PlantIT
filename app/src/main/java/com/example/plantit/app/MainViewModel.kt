@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantit.core.common.utils.uriToBitmap
+import com.example.plantit.core.domain.use_case.get_saved_user.GetSavedUserUseCase
 import com.example.plantit.features.plant_search.domain.model.Plant
 import com.example.plantit.features.ai_helper.presentation.BitmapState
 import com.example.plantit.features.plant_list.presentation.MyPlantsState
@@ -19,7 +20,9 @@ import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel() : ViewModel() {
+class MainViewModel(
+    val getSavedUserUseCase: GetSavedUserUseCase,
+) : ViewModel() {
 
     var state by mutableStateOf(BitmapState())
         private set
@@ -28,9 +31,17 @@ class MainViewModel() : ViewModel() {
     var myPlantsState by mutableStateOf(MyPlantsState())
         private set
 
+    var userState by mutableStateOf(UserState())
 
-
-
+    fun loadCurrentUser() {
+        viewModelScope.launch {
+            val user = getSavedUserUseCase()
+            userState = userState.copy(
+                email = user?.email,
+                id = user?.id
+            )
+        }
+    }
     fun onImageSelected(uri: Uri, context: Context) {
         viewModelScope.launch {
             state = state.copy(

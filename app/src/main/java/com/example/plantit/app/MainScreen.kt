@@ -23,27 +23,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.plantit.features.ai_helper.presentation.AIHelper
-import com.example.plantit.features.plant_list.presentation.MyPlants
-import com.example.plantit.features.plant_search.presentation.PlantList
-import com.example.plantit.features.plant_search.presentation.PlantSearchScreenRoot
-import com.example.plantit.features.plant_search.presentation.PlantSearchViewModel
-import com.example.plantit.features.dashboard.presentation.TasksScreen
 import com.example.plantit.app.navigation.topLevelRoutes
 import com.example.plantit.core.presentation.theme.Dimens
 import com.example.plantit.core.presentation.theme.Green200
 import com.example.plantit.core.presentation.theme.GreenDark
 import com.example.plantit.core.presentation.theme.GreenLight
+import com.example.plantit.features.ai_helper.presentation.AIHelper
+import com.example.plantit.features.dashboard.presentation.TasksScreen
 import com.example.plantit.features.plant_detail.presentation.PlantDetail
 import com.example.plantit.features.plant_detail.presentation.PlantDetailScreenRoot
-import com.example.plantit.features.plant_detail.presentation.PlantDetailViewModel
+import com.example.plantit.features.plant_list.presentation.MyPlants
+import com.example.plantit.features.plant_search.presentation.PlantList
+import com.example.plantit.features.plant_search.presentation.PlantSearchScreenRoot
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MainScreen() {
-
-    val mainViewModel: MainViewModel = koinViewModel()
-    val plantSearchViewModel = koinViewModel<PlantSearchViewModel>()
 
     val navController = rememberNavController()
 
@@ -104,34 +99,34 @@ fun MainScreen() {
                 .padding(innerPadding)
                 .background(Green200)
         ) {
-            NavHost(
-                navController = navController,
-                startDestination = TasksScreen
+            NavHost (
+                    navController = navController,
+            startDestination = TasksScreen
             ) {
-                composable<TasksScreen> {
-                    TasksScreen(mainViewModel)
-                }
-                composable<PlantList> {
-                    PlantSearchScreenRoot(
-                        plantSearchViewModel = plantSearchViewModel,
-                        onPlantClick = {
-                            navController.navigate(PlantDetail(it.id))
-                        }
-                    )
-                }
-                composable<AIHelper> {
-                    AIHelper(mainViewModel, navController)
-                }
-                composable<MyPlants> {
-                    MyPlants(mainViewModel)
-                }
-                composable<PlantDetail> {
-                    PlantDetailScreenRoot(
-                        viewModel = koinViewModel(),
-                        onBackClick = { navController.popBackStack() }
-                    )
-                }
+            composable<TasksScreen> {
+                TasksScreen()
             }
+            composable<PlantList> {
+                PlantSearchScreenRoot(
+                    plantSearchViewModel = koinViewModel(),
+                    onPlantClick = {
+                        navController.navigate(PlantDetail(it.id))
+                    }
+                )
+            }
+            composable<AIHelper> {
+               // AIHelper(navController)
+            }
+            composable<MyPlants> {
+             //   MyPlants(mainViewModel)
+            }
+            composable<PlantDetail> {
+                PlantDetailScreenRoot(
+                    viewModel = koinViewModel(),
+                    onBackClick = { navController.popBackStack() }
+                )
+            }
+        }
         }
     }
 }
