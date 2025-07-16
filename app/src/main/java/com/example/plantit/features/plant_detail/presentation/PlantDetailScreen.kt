@@ -2,10 +2,11 @@ package com.example.plantit.features.plant_detail.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,11 +17,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -39,6 +40,7 @@ import com.example.plantit.core.presentation.theme.BottomArcShape
 import com.example.plantit.core.presentation.theme.Dimens
 import com.example.plantit.core.presentation.theme.Green700
 import com.example.plantit.core.presentation.theme.Green800
+import com.example.plantit.core.presentation.theme.GreenDark
 import com.example.plantit.features.plant_search.domain.model.Plant
 import com.example.plantit.features.plant_search.domain.model.PlantRequirement
 import kotlinx.serialization.Serializable
@@ -115,6 +117,26 @@ fun PlantDetailScreen(
                 ),
                 modifier = Modifier.padding(start = 16.dp, end = 16.dp)
             )
+            Spacer(modifier = Modifier.height(Dimens.smallSpacing))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                if (state.error != null) {
+                    Text(
+                        text = state.error,
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            color = Color.Red,
+                        ),
+                        modifier = Modifier.padding(start = 16.dp, end = 16.dp)
+                    )
+                } else if (state.isLoading) {
+                    CircularProgressIndicator(color = GreenDark)
+                    Text(
+                        text = "Dodawanie rośliny ...",
+                        style = MaterialTheme.typography.headlineSmall.copy(
+                            color = GreenDark,
+                        )
+                    )
+                }
+            }
         }
     }
 }

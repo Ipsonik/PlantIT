@@ -49,18 +49,12 @@ fun LoginScreenRoot(
 ) {
     val state = authViewModel.state
 
-    LaunchedEffect(state.user) {
-        if (state.user != null) {
-            onSuccessfulLogin()
-        }
-    }
-
     LoginScreen(
         state = state,
         onEmailChange = { authViewModel.updateEmail(it) },
         onPasswordChange = { authViewModel.updatePassword(it) },
         onPasswordVisibilityToggle = { authViewModel.togglePasswordVisibility() },
-        onLoginClick = { authViewModel.login() },
+        onLoginClick = { authViewModel.login(onSuccessfulLogin) },
         onSignUpClick = { authViewModel.signUp() }
     )
 }

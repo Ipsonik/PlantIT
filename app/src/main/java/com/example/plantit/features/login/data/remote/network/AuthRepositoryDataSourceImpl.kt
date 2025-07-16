@@ -21,9 +21,10 @@ import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import javax.inject.Named
 
 class AuthRemoteDataSourceImpl(
-    private val client: HttpClient
+    @Named("authClient") private val client: HttpClient
 ) : AuthRemoteDataSource {
     override suspend fun signUp(email: String, password: String): Resource<AuthResponse> {
         return try {
@@ -97,6 +98,4 @@ class AuthRemoteDataSourceImpl(
             return Resource.Error(e.message ?: "Unknown error during login")
         }
     }
-
-
 }

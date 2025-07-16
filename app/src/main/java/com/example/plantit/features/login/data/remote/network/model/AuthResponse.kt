@@ -15,6 +15,7 @@ data class AuthResponse(
     val error: String? = null,
     @SerialName("msg")
     val errorMessage: String? = null,
+    @SerialName("expires_at")
     val expiresAt: Long? = null
 )
 

@@ -33,7 +33,7 @@ class AuthViewModel(
         state = state.copy(isPasswordVisible = !state.isPasswordVisible)
     }
 
-    fun login() {
+    fun login(onLoginSuccess: () -> Unit) {
         viewModelScope.launch {
             state = state.copy(isLoading = true, authError = null)
 
@@ -41,11 +41,14 @@ class AuthViewModel(
                 is Resource.Success -> {
                     val auth = result.data
                     if (auth?.accessToken != null) {
+                        saveAuthInfoUseCase(auth) // ⏳ suspendujący zapis
+
                         state = state.copy(
-                            user = result.data.user,
+                            user = auth.user,
                             isLoading = false
                         )
-                        saveAuthInfoUseCase(auth)
+
+                        onLoginSuccess() // ✅ dopiero po zapisie
                     } else {
                         val mapped = AuthErrorMapper.fromCode(auth?.error)
                         state = state.copy(authErrorType = mapped, isLoading = false)
@@ -55,11 +58,11 @@ class AuthViewModel(
                     authError = result.message,
                     isLoading = false
                 )
-
                 is Resource.Loading -> {}
             }
         }
     }
+
 
     fun signUp() {
         viewModelScope.launch {

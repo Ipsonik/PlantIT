@@ -2,7 +2,7 @@ package com.example.plantit.app.navigation
 
 import com.example.plantit.R
 import com.example.plantit.features.ai_helper.presentation.AIHelper
-import com.example.plantit.features.plant_list.presentation.MyPlants
+import com.example.plantit.features.user_plant_list.presentation.UserPlantList
 import com.example.plantit.features.plant_search.presentation.PlantList
 import com.example.plantit.features.dashboard.presentation.TasksScreen
 
@@ -36,7 +36,7 @@ val topLevelRoutes = listOf(
     ),
     TopLevelRoute(
         name = "Moje rośliny",
-        route = MyPlants,
+        route = UserPlantList,
         selectedIcon = R.drawable.flower_filled,
         unselectedIcon = R.drawable.flower_outline,
     )

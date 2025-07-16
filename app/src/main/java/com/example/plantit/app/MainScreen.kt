@@ -32,9 +32,10 @@ import com.example.plantit.features.ai_helper.presentation.AIHelper
 import com.example.plantit.features.dashboard.presentation.TasksScreen
 import com.example.plantit.features.plant_detail.presentation.PlantDetail
 import com.example.plantit.features.plant_detail.presentation.PlantDetailScreenRoot
-import com.example.plantit.features.plant_list.presentation.MyPlants
+import com.example.plantit.features.user_plant_list.presentation.UserPlantList
 import com.example.plantit.features.plant_search.presentation.PlantList
 import com.example.plantit.features.plant_search.presentation.PlantSearchScreenRoot
+import com.example.plantit.features.user_plant_list.presentation.UserPlantListRoot
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -117,8 +118,8 @@ fun MainScreen() {
             composable<AIHelper> {
                // AIHelper(navController)
             }
-            composable<MyPlants> {
-             //   MyPlants(mainViewModel)
+            composable<UserPlantList> {
+                UserPlantListRoot()
             }
             composable<PlantDetail> {
                 PlantDetailScreenRoot(

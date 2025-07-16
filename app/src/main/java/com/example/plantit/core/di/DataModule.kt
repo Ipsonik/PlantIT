@@ -1,7 +1,7 @@
 package com.example.plantit.core.di
 
-import com.example.plantit.core.data.network.KtorRemotePlantSearchDataSource
-import com.example.plantit.core.data.network.RemotePlantSearchDataSource
+import com.example.plantit.features.plant_search.data.remote.network.RemotePlantSearchDataSourceImpl
+import com.example.plantit.features.plant_search.data.remote.network.RemotePlantSearchDataSource
 import com.example.plantit.features.login.data.remote.local.AuthStorageImpl
 import com.example.plantit.features.login.data.remote.network.AuthRemoteDataSource
 import com.example.plantit.features.login.data.remote.network.AuthRemoteDataSourceImpl
@@ -14,18 +14,23 @@ import com.example.plantit.features.plant_detail.data.repository.PlantDetailRepo
 import com.example.plantit.features.plant_detail.domain.repository.PlantDetailRepository
 import com.example.plantit.features.plant_search.data.repository.PlantsRepositoryImpl
 import com.example.plantit.features.plant_search.domain.repository.PlantsSearchRepository
+import com.example.plantit.features.user_plants.data.remote.network.UserPlantRemoteDataSource
+import com.example.plantit.features.user_plants.data.remote.network.UserPlantRemoteDataSourceImpl
+import com.example.plantit.features.user_plants.data.repository.UserPlantRepositoryImpl
+import com.example.plantit.features.user_plants.domain.repository.UserPlantRepository
 import org.koin.android.ext.koin.androidContext
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 val dataModule = module {
-
     // DATA SOURCE
-    single<RemotePlantSearchDataSource> { KtorRemotePlantSearchDataSource(get()) }
+    single<RemotePlantSearchDataSource> { RemotePlantSearchDataSourceImpl(get(named("appClient"))) }
 
-    single<RemotePlantDetailDataSource> { KtorRemotePlantDetailDataSource(get()) }
+    single<RemotePlantDetailDataSource> { KtorRemotePlantDetailDataSource(get(named("appClient"))) }
 
-    single<AuthRemoteDataSource> { AuthRemoteDataSourceImpl(get()) }
+    single<AuthRemoteDataSource> { AuthRemoteDataSourceImpl(get(named("authClient"))) }
 
+    single<UserPlantRemoteDataSource> { UserPlantRemoteDataSourceImpl(get(named("appClient"))) }
 
 
     // REPOSITORY
@@ -36,5 +41,7 @@ val dataModule = module {
     single<AuthRepository> { AuthRepositoryImpl(get()) }
 
     single<AuthStorage> { AuthStorageImpl(androidContext().dataStore) }
+
+    single<UserPlantRepository> { UserPlantRepositoryImpl(get()) }
 
 }

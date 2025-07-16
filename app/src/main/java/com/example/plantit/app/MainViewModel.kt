@@ -2,9 +2,6 @@ package com.example.plantit.app
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,9 +9,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.plantit.core.common.utils.uriToBitmap
 import com.example.plantit.core.domain.use_case.get_saved_user.GetSavedUserUseCase
-import com.example.plantit.features.plant_search.domain.model.Plant
+import com.example.plantit.core.domain.use_case.logout.LogoutUseCase
 import com.example.plantit.features.ai_helper.presentation.BitmapState
-import com.example.plantit.features.plant_list.presentation.MyPlantsState
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
@@ -22,13 +18,10 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     val getSavedUserUseCase: GetSavedUserUseCase,
+    val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
 
     var state by mutableStateOf(BitmapState())
-        private set
-
-    // plants of user
-    var myPlantsState by mutableStateOf(MyPlantsState())
         private set
 
     var userState by mutableStateOf(UserState())
@@ -42,6 +35,13 @@ class MainViewModel(
             )
         }
     }
+
+    fun logout() {
+        viewModelScope.launch {
+            logoutUseCase()
+        }
+    }
+
     fun onImageSelected(uri: Uri, context: Context) {
         viewModelScope.launch {
             state = state.copy(
@@ -87,15 +87,5 @@ class MainViewModel(
             )
         }
 
-    }
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onAddNewPlantClick(plant: Plant) {
-        val existingPlant = myPlantsState.myPlants.find { it.id == plant.id }
-        if (existingPlant == null) {
-        } else {
-            Log.i("siema", "Roślina o id ${plant.id} już istnieje w liście. Lista wyglada tak: ${myPlantsState.myPlants.toString()}")
-
-        }
     }
 }

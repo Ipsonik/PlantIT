@@ -9,5 +9,4 @@ class GetSavedUserUseCase(
     suspend operator fun invoke(): UserResponse? {
         return authStorage.getUser()
     }
-
 }
