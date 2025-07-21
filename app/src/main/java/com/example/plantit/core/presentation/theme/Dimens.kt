@@ -20,10 +20,18 @@ object Dimens {
     val bigSpacing = 16.dp
     val veryBigSpacing = 24.dp
 
+    val verySmallPadding = 2.dp
+    val smallPadding = 4.dp
+    val mediumPadding = 8.dp
+    val bigPadding = 12.dp
+    val veryBigPadding = 16.dp
+
     val smallCornerRadius = 4.dp
     val mediumCornerRadius = 8.dp
     val bigCornerRadius = 12.dp
     val veryBigCornerRadius = 16.dp
+    val largeCornerRadius = 24.dp
+    val veryLargeCornerRadius = 32.dp
 
     val fontSize8 = 8.sp
     val fontSize10 = 10.sp

@@ -14,6 +14,10 @@ import com.example.plantit.features.plant_detail.data.repository.PlantDetailRepo
 import com.example.plantit.features.plant_detail.domain.repository.PlantDetailRepository
 import com.example.plantit.features.plant_search.data.repository.PlantsRepositoryImpl
 import com.example.plantit.features.plant_search.domain.repository.PlantsSearchRepository
+import com.example.plantit.features.profile.data.remote.network.ProfileRemoteDataSource
+import com.example.plantit.features.profile.data.remote.network.ProfileRemoteDataSourceImpl
+import com.example.plantit.features.profile.data.repository.ProfileRepositoryImpl
+import com.example.plantit.features.profile.domain.repository.ProfileRepository
 import com.example.plantit.features.user_plants.data.remote.network.UserPlantRemoteDataSource
 import com.example.plantit.features.user_plants.data.remote.network.UserPlantRemoteDataSourceImpl
 import com.example.plantit.features.user_plants.data.repository.UserPlantRepositoryImpl
@@ -32,6 +36,8 @@ val dataModule = module {
 
     single<UserPlantRemoteDataSource> { UserPlantRemoteDataSourceImpl(get(named("appClient"))) }
 
+    single<ProfileRemoteDataSource> { ProfileRemoteDataSourceImpl(get(named("appClient"))) }
+
 
     // REPOSITORY
     single<PlantsSearchRepository> { PlantsRepositoryImpl(get()) }
@@ -43,5 +49,7 @@ val dataModule = module {
     single<AuthStorage> { AuthStorageImpl(androidContext().dataStore) }
 
     single<UserPlantRepository> { UserPlantRepositoryImpl(get()) }
+
+    single<ProfileRepository> { ProfileRepositoryImpl(get()) }
 
 }

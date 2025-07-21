@@ -9,8 +9,10 @@ import com.example.plantit.core.domain.use_case.save_auth_info.SaveAuthInfoUseCa
 import com.example.plantit.core.domain.use_case.session_valid.IsSessionValidUseCase
 import com.example.plantit.features.login.domain.use_case.sign_up.SignUpUseCase
 import com.example.plantit.features.plant_detail.domain.use_case.GetPlantDetailByIdUseCase
+import com.example.plantit.features.plant_search.domain.use_case.add_plant.AddPlantUseCase
 import com.example.plantit.features.plant_search.domain.use_case.get_plants.GetAllPlantsUseCase
 import com.example.plantit.features.plant_search.domain.use_case.search_plants.SearchPlantsUseCase
+import com.example.plantit.features.profile.domain.use_case.GetProfileUseCase
 import com.example.plantit.features.user_plants.domain.use_case.add_user_plant.AddUserPlantUseCase
 import com.example.plantit.features.user_plants.domain.use_case.get_user_plants.GetUserPlantsUseCase
 import org.koin.dsl.module
@@ -29,6 +31,6 @@ val domainModule = module {
     single { IsSessionValidUseCase(get()) }
     single { LogoutUseCase(get()) }
     single { GetUserPlantsUseCase(get()) }
-
-
+    single { GetProfileUseCase(get()) }
+    single { AddPlantUseCase(get()) }
 }

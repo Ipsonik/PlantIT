@@ -109,7 +109,6 @@ fun MainScreen() {
             }
             composable<PlantList> {
                 PlantSearchScreenRoot(
-                    plantSearchViewModel = koinViewModel(),
                     onPlantClick = {
                         navController.navigate(PlantDetail(it.id))
                     }

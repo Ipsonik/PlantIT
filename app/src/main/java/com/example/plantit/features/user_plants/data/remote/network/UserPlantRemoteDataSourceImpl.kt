@@ -1,20 +1,18 @@
 package com.example.plantit.features.user_plants.data.remote.network
 
-import com.example.plantit.core.common.Constants
 import com.example.plantit.core.common.Resource
 import com.example.plantit.features.user_plants.data.remote.model.CreateUserPlantDto
 import com.example.plantit.features.user_plants.data.remote.model.UserPlantDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.plugins.ClientRequestException
 import io.ktor.client.request.get
-import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.contentType
+import io.ktor.http.encodedPath
 import javax.inject.Named
 
 class UserPlantRemoteDataSourceImpl(
@@ -22,7 +20,10 @@ class UserPlantRemoteDataSourceImpl(
 ) : UserPlantRemoteDataSource {
     override suspend fun addUserPlant(createUserPlantDto: CreateUserPlantDto): Resource<Unit> {
         return try {
-            val response = httpClient.post("${Constants.BASE_URL}user_plants") {
+            val response = httpClient.post {
+                url {
+                    encodedPath += "user_plants"
+                }
                 contentType(ContentType.Application.Json)
                 setBody(createUserPlantDto)
             }
@@ -40,7 +41,10 @@ class UserPlantRemoteDataSourceImpl(
 
     override suspend fun getUserPlants(userId: String): Resource<List<UserPlantDto>> {
         return try {
-            val response: List<UserPlantDto> = httpClient.get("${Constants.BASE_URL}user_plants") {
+            val response: List<UserPlantDto> = httpClient.get {
+                url {
+                    encodedPath += "user_plants"
+                }
                 parameter("select", "*,plant:plants(*)")
                 parameter("user_id", "eq.$userId")
             }.body()

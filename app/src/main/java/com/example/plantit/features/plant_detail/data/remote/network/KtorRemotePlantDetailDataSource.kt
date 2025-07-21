@@ -8,13 +8,17 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import io.ktor.http.encodedPath
 import javax.inject.Named
 
 class KtorRemotePlantDetailDataSource(
     @Named("appClient") private val httpClient: HttpClient) : RemotePlantDetailDataSource {
     override suspend fun getPlantById(plantId: Int): Resource<PlantDto> {
         return try {
-            val response = httpClient.get("${Constants.BASE_URL}plants") {
+            val response = httpClient.get{
+                url {
+                    encodedPath += "plants"
+                }
                 parameter("select", "*")
                 parameter("id", "eq.$plantId")
 

@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import com.example.plantit.core.presentation.theme.Dimens
@@ -24,7 +25,10 @@ import com.example.plantit.features.user_plants.domain.model.UserPlant
 @Composable
 fun UserPlantItem(plant: UserPlant, onClick: () -> Unit = {}) {
     Card(
-        shape = RoundedCornerShape(Dimens.smallCornerRadius),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        shape = RoundedCornerShape(Dimens.bigCornerRadius),
         elevation = CardDefaults.cardElevation(Dimens.verySmallSpacing),
         modifier = Modifier
             .padding(Dimens.smallSpacing)

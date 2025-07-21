@@ -15,6 +15,7 @@ import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
+import io.ktor.http.encodedPath
 import io.ktor.http.isSuccess
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.contentOrNull
@@ -28,10 +29,12 @@ class AuthRemoteDataSourceImpl(
 ) : AuthRemoteDataSource {
     override suspend fun signUp(email: String, password: String): Resource<AuthResponse> {
         return try {
-            val response: AuthResponse = client.post("${Constants.AUTH_BASE_URL}signup") {
+            val response: AuthResponse = client.post {
+                url {
+                    encodedPath += "signup"
+                }
                 headers {
                     append("Content-Type", "application/json")
-                    append("apikey", BuildConfig.SUPABASE_KEY)
                 }
                 setBody(AuthRequest(email, password))
             }.body()
@@ -55,9 +58,11 @@ class AuthRemoteDataSourceImpl(
 
     override suspend fun login(email: String, password: String): Resource<AuthResponse> {
         try {
-            val httpResponse: HttpResponse = client.post("${Constants.AUTH_BASE_URL}token?grant_type=password") {
+            val httpResponse: HttpResponse = client.post {
+                url{
+                    encodedPath += "token?grant_type=password"
+                }
                 headers {
-                    append("apikey", BuildConfig.SUPABASE_KEY)
                     append("Content-Type", "application/json")
                 }
                 setBody(AuthRequest(email, password))

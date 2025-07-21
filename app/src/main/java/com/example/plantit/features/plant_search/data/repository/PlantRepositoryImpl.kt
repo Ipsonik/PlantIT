@@ -1,6 +1,7 @@
 package com.example.plantit.features.plant_search.data.repository
 
 import com.example.plantit.core.common.Resource
+import com.example.plantit.features.plant_search.data.remote.model.CreatePlantDto
 import com.example.plantit.features.plant_search.data.remote.network.RemotePlantSearchDataSource
 import com.example.plantit.features.plant_search.data.remote.model.PlantDto
 import com.example.plantit.features.plant_search.domain.repository.PlantsSearchRepository
@@ -15,5 +16,9 @@ class PlantsRepositoryImpl(
 
     override suspend fun searchPlants(query: String): Resource<List<PlantDto>> {
         return remoteDataSource.searchPlant(query)
+    }
+
+    override suspend fun addPlant(createDto: CreatePlantDto): Resource<Unit> {
+        return remoteDataSource.addPlant(createDto)
     }
 }

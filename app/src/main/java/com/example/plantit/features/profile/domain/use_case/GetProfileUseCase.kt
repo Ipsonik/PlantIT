@@ -2,6 +2,7 @@ package com.example.plantit.features.profile.domain.use_case
 
 import com.example.plantit.core.common.Resource
 import com.example.plantit.features.profile.domain.model.Profile
+import com.example.plantit.features.profile.domain.repository.ProfileRepository
 
 class GetProfileUseCase (
     private val repository: ProfileRepository

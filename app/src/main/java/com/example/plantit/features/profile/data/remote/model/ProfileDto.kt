@@ -9,6 +9,7 @@ data class ProfileDto(
     @SerialName("user_id")
     val userId: String,
     val username: String? = null,
+    @SerialName("is_admin")
     val isAdmin: Boolean = false
 )
 

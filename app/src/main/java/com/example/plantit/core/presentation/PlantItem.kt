@@ -1,6 +1,7 @@
 package com.example.plantit.core.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberAsyncImagePainter
 import com.example.plantit.features.plant_search.domain.model.Plant
@@ -23,13 +25,14 @@ import com.example.plantit.core.presentation.theme.Dimens
 
 @Composable
 fun PlantItem(plant: Plant, onClick: () -> Unit = {}) {
+    Spacer(modifier = Modifier.padding(Dimens.smallSpacing))
     Card(
-        shape = RoundedCornerShape(Dimens.smallCornerRadius),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        ),
+        shape = RoundedCornerShape(Dimens.bigCornerRadius),
         elevation = CardDefaults.cardElevation(Dimens.verySmallSpacing),
-        modifier = Modifier
-            .padding(Dimens.smallSpacing)
-            .fillMaxWidth()
-            .clickable { onClick() },
+        modifier = Modifier.fillMaxWidth().clickable { onClick() }
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
